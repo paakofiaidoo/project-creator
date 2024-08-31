@@ -1,0 +1,13 @@
+templates:
+  - react
+  
+
+
+
+
+
+scripts:
+  createFolder: |
+    mkdir ${dir}
+  add-git:
+    git init
