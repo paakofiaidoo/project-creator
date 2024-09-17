@@ -1,0 +1,21 @@
+templates:
+  - name: React App (javascript)
+    description: A simple React application 
+    files:
+      - index.html 
+    commands:
+      - npx create-react-app ${projectName}
+  - name: React App (typescript)
+    description: A simple typescipt React application
+    files:
+      - index.html 
+    commands:
+      - npx create-react-app ${projectName} --template typescript 
+
+
+
+scripts:
+  createFolder: |
+    mkdir ${dir}
+  add-git:
+    git init

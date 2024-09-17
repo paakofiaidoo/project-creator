@@ -3,6 +3,7 @@
   "displayName": "Project Creator",
   "description": "Quickly setup basic project for all lanuages ",
   "version": "0.0.1",
+  "publisher": "paakofiAidoo",
   "engines": {
     "vscode": "^1.92.0"
   },
@@ -14,10 +15,25 @@
   "contributes": {
     "commands": [
       {
-        "command": "project-creator.helloWorld",
-        "title": "Hello World"
+        "command": "project-creator.createProject",
+        "title": "Create a project"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Project Creator",
+      "properties": {
+        "projectCreator.templateDirectory": {
+          "type": "string",
+          "default": "./src/templates/templates.yml",
+          "description": "The path to your project templates YAML file."
+        },
+        "projectCreator.baseFolder": {
+          "type": "string",
+          "default": "${desktopDir}\\My_Projects", 
+          "description": "The base folder where new projects will be created."
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "pnpm run package",
