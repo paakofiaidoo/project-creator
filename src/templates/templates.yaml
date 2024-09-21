@@ -12,6 +12,35 @@ templates:
     commands:
       - npx create-react-app ${projectName} --template typescript 
 
+  - name: Test Delays and Echoes
+    description: Runs a series of echo commands with delays for testing
+    files:
+      - placeholder.txt 
+    commands:
+      - echo "Starting test script..."
+      - sleep 3
+      - echo "Creating some directories..."
+      - mkdir -p test1/test2 test3/test4
+      - sleep 2
+      - echo "Listing directory contents..."
+      - ls -l
+      - sleep 1
+      - echo "Writing to a file..."
+      - echo "This is a test file" > test.txt
+      - sleep 2
+      - echo "Removing test directories..."
+      - rm -rf test1 test3
+      - echo "Test script completed!"
+
+  - name: More Test Delays
+    description: Another set of commands with delays
+    files:
+      - placeholder.txt
+    commands:
+      - echo "This is another test script..."
+      - for i in {1..5}; do echo "Waiting... $i"; sleep 1; done
+      - echo "Done waiting!" 
+
 
 
 scripts:
