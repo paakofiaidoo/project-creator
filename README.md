@@ -1,71 +1,29 @@
-# project-creator README
+## Project Creator: Effortless Project Scaffolding in VS Code
 
-This is the README for your extension "project-creator". After writing up a brief description, we recommend including the following sections.
+Tired of manually setting up new projects? Project Creator streamlines your workflow by generating boilerplate code for various project types directly within VS Code.
 
-## Features
+### Features
+- Intuitive Project Creation: Quickly scaffold new projects using a simple command palette interface.
+- Multiple Template Support: Choose from a variety of pre-defined templates for popular languages and frameworks (e.g., React, Go, Flutter, Python, HTML5).
+- Seamless Integration: Create projects directly within your VS Code workspace, ready for development.
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
 
-For example if there is an image subfolder under your extension project workspace:
+## Getting Started
+1. Install the Extension: Search for "Project Creator" in the VS Code Extensions Marketplace and install it.
+2. Create a New Project:
+    - Open the command palette (Ctrl+Shift+P or Cmd+Shift+P).
+    - Type "Project Creator: Create New Project".
+    - Select the desired project type from the list of available templates.
+    - Provide a name for your project and choose its location.
+3. Start Coding! Project Creator will generate the necessary files and folders, allowing you to focus on writing code.
 
-\!\[feature X\]\(images/feature-x.png\)
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
 
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
+### Extension Settings
 
 This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+<!-- 
+* **`projectCreator.templateDirectory`:** (default: `"./src/templates/templates.yml"`) 
+   - Specifies the path to your project templates YAML file. This setting will be used in the future to support custom templates. -->
+* **`projectCreator.baseFolder`:** (default: `${desktopDir}\My_Projects`)
+   - The base folder where new projects will be created. 

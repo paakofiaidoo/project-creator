@@ -2,13 +2,17 @@
 import { QuickPickItem, window, Disposable, CancellationToken, QuickInputButton, QuickInput, ExtensionContext, QuickInputButtons, Uri } from 'vscode';
 import { createProject, loadTemplates, Template, TemplateItem } from './templates/template';
 
-
+export interface Project {
+    name: string;
+    template: any;
+    initializeGit: boolean; 
+}
 
 export async function multiStepInput(context: ExtensionContext) {
 
 
     const templates = loadTemplates();
-    console.log("🚀 ~ disposable ~ templates:", templates)
+    console.log("🚀 ~ disposable ~ templates:", templates);
 
     // Create QuickPick items from templates
     const quickPickItems: TemplateItem[] = templates.templates.map(template => ({
@@ -21,104 +25,96 @@ export async function multiStepInput(context: ExtensionContext) {
         constructor(public iconPath: { light: Uri; dark: Uri; }, public tooltip: string) { }
     }
 
-    const createResourceGroupButton = new MyButton({
-        dark: Uri.file(context.asAbsolutePath('resources/dark/add.svg')),
-        light: Uri.file(context.asAbsolutePath('resources/light/add.svg')),
-    }, 'Create Resource Group');
-
 
     interface State {
         title: string;
         step: number;
         totalSteps: number;
-        resourceGroup: QuickPickItem | string;
         name: string;
-        runtime: QuickPickItem;
         app: string;
-        template: any
+        template: any;
+        initializeGit: boolean; 
     }
+  
 
     async function collectInputs() {
         const state = {} as Partial<State>;
-        state.name=""
+        state.name="";
+        state.template = {};
+        state.initializeGit = false;
+        console.log("🚀 ~ collectInputs ~ state:", state);
         await MultiStepInput.run(input => pickTemplate(input, state));
-        console.log("🚀 ~ collectInputs ~ state:", state)
-        createProject(state.template, state.name)
+        console.log("🚀 ~ collectInputs ~ state:", state);
+let project: Project ={
+    name: state.name,
+    template: state.template.template,
+    initializeGit: state.initializeGit
+};
+console.log("🚀 ~ project:", project);
+createProject(project);
+
+
 
         return state as State;
     }
 
-    const title = 'Create Project';
+    const title = 'Create a new Project';
 
     async function pickTemplate(input: MultiStepInput, state: Partial<State>) {
         const pick = await input.showQuickPick({
             title,
             step: 1,
-            totalSteps: 3,
+            totalSteps: 2,
             placeholder: 'Pick a project template',
             items: quickPickItems,
-            activeItem: typeof state.resourceGroup !== 'string' ? state.resourceGroup : undefined,
-            buttons: [createResourceGroupButton],
             shouldResume: shouldResume
         });
         if (pick instanceof MyButton) {
             console.log(pick.tooltip);
-            return
-            // return (input: MultiStepInput) => inputResourceGroupName(input, state);
+            return;
         }
         state.template = pick;
         return (input: MultiStepInput) => inputName(input, state);
     }
 
     async function inputName(input: MultiStepInput, state: Partial<State>) {
-        const additionalSteps = typeof state.resourceGroup === 'string' ? 1 : 0;
-        state.name=""
-        // TODO: Remember current value when navigating back.
+        const additionalSteps = state.template.template.add_git ? 1 : 0;
+        state.name="";
         state.name = await input.showInputBox({
             title,
-            step: 2 + additionalSteps,
-            totalSteps: 3 + additionalSteps,
+            step: 2 ,
+            totalSteps: 2 + additionalSteps,
             value: state.name,
             prompt: 'Choose a unique name for the project',
             validate: validateNameIsUnique,
             shouldResume: shouldResume
         });
 
-
-        // return (input: MultiStepInput) => pickRuntime(input, state);
+        if (state.template.template.add_git) {
+            return (input: MultiStepInput) => askInitializeGit(input, state);
+        } 
     }
 
-
-    async function inputResourceGroupName(input: MultiStepInput, state: Partial<State>) {
-        console.log("🚀 ~ inputResourceGroupName ~ state:", state)
-        console.log("🚀 ~ inputResourceGroupName ~ input:", input)
-        state.resourceGroup = await input.showInputBox({
-            title,
-            step: 2,
-            totalSteps: 4,
-            value: typeof state.resourceGroup === 'string' ? state.resourceGroup : '',
-            prompt: 'Choose a name for the project',
-            validate: validateNameIsUnique,
+    async function askInitializeGit(input: MultiStepInput, state: Partial<State>) {
+        const gitChoice = await input.showQuickPick({
+            title: 'Initialize Git?',
+            step: 3, // Adjust step number if needed
+            totalSteps: 3, // Adjust total steps if needed
+            placeholder: 'Do you want to initialize a Git repository?',
+            items: [
+                { label: 'Yes', description: 'Initialize Git for this project' },
+                { label: 'No', description: 'Do not initialize Git' }
+            ],
             shouldResume: shouldResume
         });
-        return (input: MultiStepInput) => inputName(input, state);
+
+        state.initializeGit = gitChoice?.label === 'Yes';
     }
 
 
 
-    async function pickRuntime(input: MultiStepInput, state: Partial<State>) {
-        const additionalSteps = typeof state.resourceGroup === 'string' ? 1 : 0;
-        // TODO: Remember currently active item when navigating back.
-        state.runtime = await input.showQuickPick({
-            title,
-            step: 3 + additionalSteps,
-            totalSteps: 3 + additionalSteps,
-            placeholder: 'Pick a runtime',
-            items: [],
-            activeItem: state.runtime,
-            shouldResume: shouldResume
-        });
-    }
+
+
 
     function shouldResume() {
         // Could show a notification with the option to resume.

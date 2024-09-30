@@ -1,16 +1,84 @@
 templates:
   - name: React App (javascript)
     description: A simple React application 
-    files:
-      - index.html 
     commands:
       - npx create-react-app ${projectName}
   - name: React App (typescript)
     description: A simple typescipt React application
-    files:
-      - index.html 
     commands:
       - npx create-react-app ${projectName} --template typescript 
+  - name: Go Project
+    description: A basic Go project structure
+    create_folder: true
+    add_git: true
+    files:
+      - main.go
+    commands:
+      - echo "Creating Go project..."
+      - go mod init ${projectName} # Initialize Go modules
+      - >
+        echo "
+        package main 
+
+        func main() { 
+          // Your code here!
+        }
+        " > main.go
+      - echo "Go project created!"
+
+  - name: Angular Project
+    description: A basic Angular project structure
+    create_folder: true
+    add_git: true
+    commands:
+      - echo "Creating Angular project..."
+      - npx -p @angular/cli ng new ${projectName} --defaults --skip-git
+      - echo "Angular project created!"
+
+  - name: HTML5 Project
+    description: A simple HTML5 project structure
+    create_folder: true
+    add_git: true
+    files:
+      - index.html
+      - css/style.css
+      - js/script.js
+    commands:
+      - echo "Creating HTML5 project..."
+      - >
+        echo "${snippets_html_simple}" > index.html
+      - echo "/* Add your CSS styles here */" > css/style.css
+      - echo "// Add your JavaScript code here" > js/script.js
+      - echo "HTML5 project created!"
+    snippets:
+      - snippets_html_simple
+
+  - name: Python Project
+    description: A basic Python project structure
+    create_folder: true
+    add_git: true
+    files:
+      - main.py
+    commands:
+      - echo "Creating Python project..."
+      - >
+        echo "def main():
+          # Your code here!
+          print('Hello from ${projectName}!')
+
+        if __name__ == '__main__':
+          main()" > main.py
+      - echo "Python project created!"
+
+
+  - name: Flutter Project
+    description: A simple Flutter application
+    create_folder: true
+    add_git: true
+    commands:
+      - echo "Creating Flutter project..."
+      - flutter create ${projectName}
+      - echo "Flutter project created!"
 
   - name: Test Delays and Echoes
     description: Runs a series of echo commands with delays for testing
@@ -34,13 +102,15 @@ templates:
 
   - name: More Test Delays
     description: Another set of commands with delays
+    create_folder: true
+    add_git: true
     files:
       - placeholder.txt
     commands:
       - echo "This is another test script..."
       - for i in {1..5}; do echo "Waiting... $i"; sleep 1; done
       - echo "Done waiting!" 
-
+  
 
 
 scripts:
@@ -48,3 +118,4 @@ scripts:
     mkdir ${dir}
   add-git:
     git init
+

@@ -25,7 +25,7 @@
         "projectCreator.templateDirectory": {
           "type": "string",
           "default": "./src/templates/templates.yml",
-          "description": "The path to your project templates YAML file."
+          "description": "The path to your project templates YAML file.(not used yet, will be used when custom templates are added)"
         },
         "projectCreator.baseFolder": {
           "type": "string",
